@@ -273,19 +273,19 @@ static void test_run(struct test *test, struct vmcb *vmcb)
             "jz 1f\n\t"
             "sti \n\t"
             "1: \n\t"
-            "vmload \n\t"
+            "vmload %%rax\n\t"
             "mov regs+0x80, %%r15\n\t"  // rflags
             "mov %%r15, 0x170(%0)\n\t"
             "mov regs, %%r15\n\t"       // rax
             "mov %%r15, 0x1f8(%0)\n\t"
             LOAD_GPR_C
-            "vmrun \n\t"
+            "vmrun %%rax\n\t"
             SAVE_GPR_C
             "mov 0x170(%0), %%r15\n\t"  // rflags
             "mov %%r15, regs+0x80\n\t"
             "mov 0x1f8(%0), %%r15\n\t"  // rax
             "mov %%r15, regs\n\t"
-            "vmsave \n\t"
+            "vmsave %%rax\n\t"
             "cli \n\t"
             "stgi"
             : : "a"(vmcb_phys)
